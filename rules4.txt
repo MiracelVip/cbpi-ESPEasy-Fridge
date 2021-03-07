@@ -1,0 +1,6 @@
+On System#Boot do
+    TaskValueSet 10,1,0.5    //Cooling OFF
+    TaskValueSet 10,2,1      //Cooling ON
+    TaskValueSet 10,3,0.5    //Heating OFF
+    TaskValueSet 10,4,1      //Heating ON
+endon

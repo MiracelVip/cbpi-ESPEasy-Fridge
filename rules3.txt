@@ -1,0 +1,30 @@
+on K2R#temperature do
+    SendToHTTP 192.168.180.75,5000,/api/httpsensor/K2R/%eventvalue%
+    LogEntry,'Check K2'
+    LogEntry,'Mode: [Target#K2Mode] Target: [Target#K2Target]'
+    if [Target#K2Mode]=1
+        LogEntry,'Mode is 1'
+        if %eventvalue% > [Target#K2Target]+[Settings#CoolingOn]
+            LogEntry,'K2: %eventvalue% result: Cooling ON'
+            gpio,4,1
+        endif
+
+        if %eventvalue% < [Target#K2Target]+[Settings#CoolingOff]
+            LogEntry,'K2: %eventvalue% result: Cooling OFF'
+            gpio,4,0
+        endif
+
+        if %eventvalue% < [Target#K2Target]-[Settings#HeatingOn]
+            LogEntry,'K2: %eventvalue% result: Heating ON'
+            gpio,15,1
+        endif
+
+        if %eventvalue% > [Target#K2Target]-[Settings#HeatingOff]
+            LogEntry,'K2: %eventvalue% result: Heating OFF'
+            gpio,15,0
+        endif
+     else
+        gpio,15,0
+        gpio,4
+     endif
+endon

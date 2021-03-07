@@ -1,0 +1,29 @@
+on B1#State=1 do
+  if [K1K#State]=0
+    gpio,12,1
+  else
+    gpio,12,0
+  endif
+endon
+on B2#State=1 do
+  if [K1H#State]=0
+    gpio,5,1
+  else
+    gpio,5,0
+  endif
+endon
+on B3#State=1 do
+  if [K2K#State]=0
+    gpio,4,1
+  else
+    gpio,4,0
+  endif
+endon
+on B4#State=1 do
+  if [K2H#State]=0
+    gpio,15,1
+  else
+    gpio,15,0
+  endif
+endon
+

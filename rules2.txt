@@ -1,0 +1,30 @@
+on K1L#temperature do
+    SendToHTTP 192.168.180.75,5000,/api/httpsensor/K1L/%eventvalue%
+    LogEntry,'Check K1'
+    LogEntry,'Mode: [Target#K1Mode] Target: [Target#K1Target]'
+    if [Target#K1Mode]=1
+        LogEntry,'Mode is 1'
+        if %eventvalue% > [Target#K1Target]+[Settings#CoolingOn]
+            LogEntry,'K1: %eventvalue% result: Cooling ON'
+            gpio,12,1
+        endif
+
+        if %eventvalue% < [Target#K1Target]+[Settings#CoolingOff]
+            LogEntry,'K1: %eventvalue% result: Cooling OFF'
+            gpio,12,0
+        endif
+
+        if %eventvalue% < [Target#K1Target]-[Settings#HeatingOn]
+            LogEntry,'K1: %eventvalue% result: Heating ON'
+            gpio,5,1
+        endif
+
+        if %eventvalue% > [Target#K1Target]-[Settings#HeatingOff]
+            LogEntry,'K1: %eventvalue% result: Heating OFF'
+            gpio,5,0
+        endif
+     else
+        gpio,5,0
+        gpio,12,0
+     endif
+endon
